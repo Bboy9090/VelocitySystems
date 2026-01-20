@@ -4,9 +4,8 @@
 )]
 
 use std::process::{Command, Stdio};
-use std::io::{BufRead, BufReader};
 use std::sync::Arc;
-use tauri::command;
+use tauri::{command, Manager};
 
 mod launcher;
 use launcher::PythonBackend;
@@ -17,7 +16,7 @@ fn run_python(script: &str, args: &[&str]) -> Result<String, String> {
     use std::env;
     
     // Get the workspace root - try multiple methods
-    let mut script_path = if let Ok(current_dir) = env::current_dir() {
+    let script_path = if let Ok(current_dir) = env::current_dir() {
         // In dev mode, current_dir is usually the workspace root
         let mut path = current_dir;
         // If we're in apps/workshop-ui, go up two levels
@@ -288,8 +287,8 @@ fn main() {
             
             Ok(())
         })
-        .on_window_event(|_app, event| {
-            if let tauri::WindowEvent::CloseRequested { .. } = event {
+        .on_window_event(|event| {
+            if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
                 // Backend will be cleaned up via Drop
             }
         })

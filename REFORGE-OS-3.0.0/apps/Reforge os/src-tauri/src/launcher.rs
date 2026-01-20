@@ -3,8 +3,8 @@
 
 use std::process::{Child, Command, Stdio};
 use std::path::PathBuf;
-use std::io::{BufRead, BufReader};
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 pub struct PythonBackend {
     process: Arc<Mutex<Option<Child>>>,
@@ -82,7 +82,7 @@ impl PythonBackend {
             cmd.creation_flags(0x08000000); // CREATE_NO_WINDOW
         }
 
-        let mut child = cmd.spawn()?;
+        let child = cmd.spawn()?;
 
         // Use fixed port 8001 (as specified in command)
         let port = 8001u16;
