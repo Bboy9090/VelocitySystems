@@ -20,7 +20,7 @@ tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
 serde_json = "1.0"
-tauri = { version = "1.5", features = [] }
+tauri = { version = "1.5", features = [ "shell-open", "dialog-save", "dialog-open"] }
 reqwest = { version = "0.11", features = ["blocking"] }
 tokio = { version = "1", features = ["full"] }
 
