@@ -1,0 +1,15 @@
+{
+  "name": "Moto G Play 2023",
+  "brand": "Motorola",
+  "model_hint": "moto g play",
+  "thermal_paths": [
+    "/sys/class/thermal/thermal_zone0/temp",
+    "/sys/class/thermal/thermal_zone1/temp"
+  ],
+  "debloat_packages": [
+    "com.motorola.bug2go",
+    "com.motorola.android.provisioning"
+  ],
+  "fastboot_style": "standard",
+  "notes": "Moto preset tuned for G Play 23"
+}

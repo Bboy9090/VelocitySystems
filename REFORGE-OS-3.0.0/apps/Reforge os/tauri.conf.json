@@ -1,0 +1,47 @@
+{
+  "build": {
+    "distDir": "../dist",
+    "beforeDevCommand": null,
+    "beforeBuildCommand": "npm run vite:build"
+  },
+  "package": {
+    "productName": "REFORGE OS",
+    "version": "3.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "dialog": {
+        "all": false,
+        "open": true,
+        "save": true
+      }
+    },
+    "bundle": {
+      "active": false,
+      "targets": ["msi", "dmg"],
+      "identifier": "com.bootforge.reforge",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": null
+      }
+    },
+    "security": {
+      "csp": "default-src 'self'"
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "REFORGE OS - Professional Repair Platform",
+        "width": 1200,
+        "height": 800
+      }
+    ]
+  }
+}

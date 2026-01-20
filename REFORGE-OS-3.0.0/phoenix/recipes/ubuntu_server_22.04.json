@@ -1,0 +1,12 @@
+{
+  "key": "ubuntu_server_22.04",
+  "name": "Ubuntu Server 22.04 LTS",
+  "description": "Ubuntu Server 22.04 LTS minimal installation",
+  "platform": "linux",
+  "image_path": "",
+  "image_sha256": "",
+  "device_patterns": ["sata", "nvme", "usb"],
+  "pre_steps": [],
+  "post_steps": [],
+  "notes": "Ubuntu Server 22.04 LTS"
+}

@@ -1,0 +1,39 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- REFORGE OS App Icon - REFORGE Professional Theme -->
+  <!-- Steel Blue (#5B7FA8) accents on Dark Blue-Grey Background -->
+  
+  <defs>
+    <linearGradient id="steelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7A9BC4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5B7FA8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="steelDarkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5B7FA8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3D5A7A;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle (Dark Blue-Grey) -->
+  <circle cx="64" cy="64" r="60" fill="#1A1F2E" stroke="#252B3D" stroke-width="2"/>
+  
+  <!-- Shield/Analysis Symbol (Steel Blue) -->
+  <path d="M 64 20 L 90 30 L 90 55 Q 90 75 80 85 Q 70 95 64 100 Q 58 95 48 85 Q 38 75 38 55 L 38 30 Z" 
+        fill="url(#steelGradient)" 
+        opacity="0.9"
+        filter="url(#glow)"/>
+  
+  <!-- Inner Circuit/Grid Pattern (Steel Blue accents) -->
+  <circle cx="64" cy="64" r="25" fill="none" stroke="url(#steelDarkGradient)" stroke-width="2" opacity="0.6"/>
+  <line x1="64" y1="39" x2="64" y2="89" stroke="url(#steelDarkGradient)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="39" y1="64" x2="89" y2="64" stroke="url(#steelDarkGradient)" stroke-width="1.5" opacity="0.5"/>
+  
+  <!-- Center Dot (Glowing Steel Blue) -->
+  <circle cx="64" cy="64" r="8" fill="#5B7FA8" opacity="0.8" filter="url(#glow)"/>
+</svg>

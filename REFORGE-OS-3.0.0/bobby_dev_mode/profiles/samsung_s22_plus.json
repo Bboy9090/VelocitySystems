@@ -1,0 +1,15 @@
+{
+  "name": "Samsung Galaxy S22+",
+  "brand": "Samsung",
+  "model_hint": "SM-S906",
+  "thermal_paths": [
+    "/sys/class/thermal/thermal_zone0/temp",
+    "/sys/class/thermal/thermal_zone1/temp"
+  ],
+  "debloat_packages": [
+    "com.samsung.android.app.social",
+    "com.samsung.android.game.gamehome"
+  ],
+  "fastboot_style": "samsung",
+  "notes": "Samsung S22+ profile. Uses Odin/SamFW for flashing."
+}

@@ -1,0 +1,15 @@
+[package]
+name = "forgeworks-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+device-analysis = { path = "../../../services/device-analysis" }
+ownership-verification = { path = "../../../services/ownership-verification" }
+legal-classification = { path = "../../../services/legal-classification" }
+audit-logging = { path = "../../../services/audit-logging" }
+authority-routing = { path = "../../../services/authority-routing" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+tauri = { version = "1.5", features = ["shell-open"] }

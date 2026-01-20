@@ -1,0 +1,28 @@
+# Rust
+target/
+Cargo.lock
+
+# Node
+node_modules/
+dist/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.cursor/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Local DB
+*.sqlite
+*.sqlite-journal
+
+# Compiled firmware
+*.bin
+*.hex
+*.elf
+*.sig
