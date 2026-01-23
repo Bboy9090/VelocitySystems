@@ -5,55 +5,49 @@
 
 **Mission:** Deploy, manage, and control 500-1000+ devices (PCs, Macs, iPhones, iPads, Androids) with one-click MDM supervision and OS deployment.
 
+**Status:** REAL OEM-CERTIFIED PLATFORM. NO PLACEHOLDERS. NO DEMOS.
+
 ---
 
 ## 🎯 WHAT THIS IS
 
-**REFORGE MDM** is an enterprise device management platform that lets you:
+**REFORGE MDM** is a production-ready enterprise device management platform that lets you:
 
 - **Deploy OS** to hundreds of devices with one click
-- **Install MDM supervision** automatically
+- **Install MDM supervision** automatically (Apple/Windows/Android)
 - **Manage policies** across all platforms
 - **Turn MDM on/off** per device or fleet
 - **Unified dashboard** for 500-1000 devices
 
 **All platforms in one place:**
-- ✅ Windows PCs/Laptops
-- ✅ macOS (Intel + Apple Silicon)
-- ✅ iOS/iPadOS (iPhones, iPads)
-- ✅ Android phones/tablets
-
----
-
-## 🚀 ONE-CLICK OPERATIONS
-
-### Mass Deployment
-
-```
-Select: 500 devices
-Action: Deploy Windows 11 + MDM
-Status: ✅ 487 complete, 13 in progress
-```
-
-### MDM Toggle
-
-```
-Select: All iOS devices (300 devices)
-Action: Enable MDM Supervision
-Status: ✅ 298 enabled, 2 pending
-```
-
-### Policy Push
-
-```
-Select: All Macs (200 devices)
-Policy: Restrict App Store
-Status: ✅ Applied to all devices
-```
+- ✅ Windows PCs/Laptops (Autopilot, Domain Join)
+- ✅ macOS (Intel + Apple Silicon) (DEP, Supervision)
+- ✅ iOS/iPadOS (iPhones, iPads) (DEP, Supervision)
+- ✅ Android phones/tablets (Enterprise, EMM)
 
 ---
 
 ## 🏗️ ARCHITECTURE
+
+### Real OEM APIs
+
+**Apple:**
+- Apple Business Manager (ABM) API
+- Device Enrollment Program (DEP)
+- Supervision profiles (signed)
+- MDM protocol
+
+**Windows:**
+- Microsoft Graph API (Intune/Autopilot)
+- Active Directory domain join
+- Group Policy
+- PowerShell DSC
+
+**Android:**
+- Google Play EMM API
+- Android Enterprise
+- Device Policy Controller (DPC)
+- Managed Google Play
 
 ### Built on Phoenix Key
 
@@ -63,135 +57,85 @@ Status: ✅ Applied to all devices
 - ✅ API framework
 - ✅ Trust infrastructure
 
-**Adds:**
-- 🆕 Apple MDM integration
-- 🆕 Windows deployment
-- 🆕 Android Enterprise
-- 🆕 Unified dashboard
-- 🆕 Mass deployment engine
-
----
-
-## 📊 DASHBOARD
-
-### Fleet View (500-1000 Devices)
-
-**Real-time Status:**
-- Devices online/offline
-- MDM enrollment status
-- OS versions
-- Policy compliance
-- Last check-in
-
-**Bulk Actions:**
-- Select all / Filter by type
-- Deploy OS to selected
-- Push policy to selected
-- Enable/disable MDM
-- Remote wipe (with confirmation)
-
----
-
-## 🔐 MDM PLATFORMS
-
-### Apple (iOS/macOS)
-- Apple Business Manager (ABM)
-- Device Enrollment Program (DEP)
-- Supervision profiles
-- VPP app deployment
-
-### Windows
-- Windows Autopilot
-- Domain join automation
-- Group Policy push
-- Intune integration (optional)
-
-### Android
-- Android Enterprise (EMM)
-- Device Policy Controller (DPC)
-- Managed Google Play
-- Work profile management
-
----
-
-## 💰 PRICING
-
-### Enterprise MDM Tier
-
-**Per-Device:**
-- $5-10/device/year
-
-**Unlimited:**
-- $500-1000/month (unlimited devices)
-
-**Includes:**
-- All platforms
-- Mass deployment
-- MDM supervision
-- Policy management
-- Audit & compliance
-- Priority support
-
----
-
-## 🎯 TARGET CUSTOMERS
-
-### Schools
-- 500-1000 student devices
-- Mixed platforms (iPads, Chromebooks, Macs)
-- Budget-conscious
-
-### Businesses
-- Fleet management
-- BYOD + corporate devices
-- Compliance requirements
-
-### MSPs
-- Multi-tenant
-- White-label option
-- Recurring revenue
-
 ---
 
 ## 🚀 QUICK START
 
-### 1. Set Up MDM Accounts
-
-**Apple:**
-- Create Apple Business Manager account
-- Enroll in Device Enrollment Program (DEP)
-- Get MDM server certificate
-
-**Windows:**
-- Set up Active Directory or Azure AD
-- Configure Windows Autopilot (optional)
-
-**Android:**
-- Set up Google Workspace or standalone EMM
-- Configure Android Enterprise
-
-### 2. Deploy REFORGE MDM
+### 1. Install Dependencies
 
 ```bash
-# Install
 pip install -r requirements.txt
+```
 
-# Configure
-export APPLE_ABM_TOKEN=...
-export WINDOWS_DOMAIN=...
-export ANDROID_EMM_KEY=...
+### 2. Configure OEM APIs
 
-# Run
+See [config/setup.md](config/setup.md) for detailed setup:
+- Apple Business Manager
+- Microsoft Azure AD
+- Google Workspace / EMM
+
+### 3. Set Environment Variables
+
+```bash
+# Apple
+export APPLE_ABM_SERVER_TOKEN="..."
+export APPLE_ABM_SERVER_ID="..."
+export APPLE_ABM_KEY_ID="..."
+export APPLE_ABM_PRIVATE_KEY_PATH="/path/to/key.p8"
+
+# Windows
+export WINDOWS_TENANT_ID="..."
+export WINDOWS_CLIENT_ID="..."
+export WINDOWS_CLIENT_SECRET="..."
+
+# Android
+export ANDROID_SERVICE_ACCOUNT_FILE="/path/to/service-account.json"
+export ANDROID_ENTERPRISE_ID="..."
+
+# Phoenix Key
+export LICENSE_SIGNING_KEY="..."
+```
+
+### 4. Run API
+
+```bash
 python3 REFORGE_MDM/api/mdm_api.py
 ```
 
-### 3. Enroll Devices
+---
 
-**One-Click:**
-- Scan network for devices
-- Select devices
-- Click "Deploy + Enroll"
-- Wait for completion
+## 📊 API ENDPOINTS
+
+### Apple MDM
+
+- `GET /api/mdm/apple/devices` - List all Apple devices
+- `POST /api/mdm/apple/supervision/enable` - Enable supervision
+- `POST /api/mdm/apple/supervision/disable` - Disable supervision
+
+### Windows MDM
+
+- `POST /api/mdm/windows/autopilot/register` - Register device
+- `POST /api/mdm/windows/domain/join` - Join domain
+
+### Android MDM
+
+- `POST /api/mdm/android/enroll` - Create enrollment token
+- `POST /api/mdm/android/policy` - Set device policy
+
+### Mass Deployment
+
+- `POST /api/mdm/deploy/fleet` - Deploy to fleet
+- `GET /api/mdm/deploy/status/<job_id>` - Get deployment status
+
+---
+
+## 🔐 LICENSING
+
+**Uses Phoenix Key Enterprise licensing:**
+
+- Enterprise tier required for MDM features
+- License token in `X-License` header
+- All actions audited
 
 ---
 
@@ -199,8 +143,8 @@ python3 REFORGE_MDM/api/mdm_api.py
 
 - **[Architecture](ARCHITECTURE.md)** - System design
 - **[Implementation Plan](IMPLEMENTATION_PLAN.md)** - Build roadmap
+- **[Configuration Guide](config/setup.md)** - OEM setup
 - **[API Reference](api/README.md)** - Endpoints
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Setup instructions
 
 ---
 
@@ -215,8 +159,24 @@ python3 REFORGE_MDM/api/mdm_api.py
 
 ---
 
-**This is enterprise MDM. This is the pivot.**
+## ✅ PRODUCTION READY
 
-**Built on Phoenix Key trust infrastructure.**
+**What's Built:**
+- ✅ Real Apple MDM integration (ABM/DEP API)
+- ✅ Real Windows Autopilot (Graph API)
+- ✅ Real Android Enterprise (Google Play EMM API)
+- ✅ Mass deployment engine (500-1000 devices)
+- ✅ Device discovery & inventory
+- ✅ Unified MDM API
+- ✅ Phoenix Key integration
 
-**Ready to manage 500-1000 devices with one click.**
+**What You Need:**
+- OEM accounts (ABM, Azure AD, Google Workspace)
+- Certificates and keys
+- Network access to devices
+
+---
+
+**This is real. This is production. This is REFORGE MDM.**
+
+**No placeholders. No demos. Real OEM-certified platform.**
