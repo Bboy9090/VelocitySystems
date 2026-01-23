@@ -22,7 +22,7 @@ import sys
 
 # Import handlers
 from health import health_handler
-from inspect import inspect_basic_handler, inspect_deep_handler
+from device_inspect import inspect_basic_handler, inspect_deep_handler
 from logs import collect_logs_handler
 from report import format_report_handler
 from policy import PolicyMirror

@@ -1,0 +1,19 @@
+{
+  "free": [
+    "boot",
+    "basic_recovery",
+    "gparted",
+    "testdisk",
+    "smart_check"
+  ],
+  "pro": [
+    "*"
+  ],
+  "enterprise": [
+    "*",
+    "audit_export",
+    "bulk_ops",
+    "org_management",
+    "sla_support"
+  ]
+}

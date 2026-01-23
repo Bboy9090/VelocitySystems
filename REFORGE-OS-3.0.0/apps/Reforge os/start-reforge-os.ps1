@@ -6,20 +6,20 @@ Write-Host ""
 # Get script directory
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectRoot = Split-Path -Parent (Split-Path -Parent $ScriptDir)
-$ApiPath = Join-Path $ProjectRoot "api"
-$ExePath = Join-Path $ScriptDir "src-tauri\target\release\workshop-ui.exe"
+$PythonPath = Join-Path $ProjectRoot "python"
+$ExePath = Join-Path $ScriptDir "src-tauri\target\release\REFORGE OS.exe"
 
 # Check if executable exists
 if (-not (Test-Path $ExePath)) {
     Write-Host "Error: Executable not found. Please build first:" -ForegroundColor Red
-    Write-Host "  cd apps/workshop-ui" -ForegroundColor Yellow
+    Write-Host "  cd apps/Reforge os" -ForegroundColor Yellow
     Write-Host "  npm run build" -ForegroundColor Yellow
     exit 1
 }
 
 # Start backend API in background
 Write-Host "Starting backend API..." -ForegroundColor Yellow
-$BackendProcess = Start-Process python -ArgumentList "-m", "uvicorn", "main:app", "--port", "8001", "--host", "127.0.0.1" -WorkingDirectory $ApiPath -PassThru -WindowStyle Hidden
+$BackendProcess = Start-Process python -ArgumentList "app\main.py", "--port", "8001" -WorkingDirectory $PythonPath -PassThru -WindowStyle Hidden
 
 # Wait a bit for backend to start
 Start-Sleep -Seconds 3

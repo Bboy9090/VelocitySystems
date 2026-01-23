@@ -1,0 +1,682 @@
+openapi: 3.0.3
+info:
+  title: REFORGE OS API
+  description: |
+    The operating system that certifies device truth.
+    
+    Evidence-first diagnostics, real-world stress validation, and immutable certification.
+  version: 1.0.0
+  contact:
+    name: REFORGE OS API Support
+    email: api@reforgeos.com
+  license:
+    name: PROPRIETARY
+servers:
+  - url: https://api.reforgeos.com/v1
+    description: Production
+  - url: https://api-staging.reforgeos.com/v1
+    description: Staging
+  - url: http://localhost:8001/v1
+    description: Local Development
+
+tags:
+  - name: Sessions
+    description: Diagnostic session management
+  - name: Diagnostics
+    description: Shadow Genius Diagnostics Engine (SGDE)
+  - name: Stress Tests
+    description: Real-world stress validation
+  - name: Risk Assessment
+    description: Risk scoring and prediction
+  - name: Decision
+    description: SAFE / RISK / STOP decisions
+  - name: Certification
+    description: Phoenix Forge Device Health Certificates
+  - name: Ledger
+    description: Immutable audit ledger
+  - name: Health
+    description: System health and readiness
+
+paths:
+  /sessions:
+    post:
+      tags: [Sessions]
+      summary: Create a new diagnostic session
+      operationId: createSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '201':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /sessions/{sessionId}:
+    get:
+      tags: [Sessions]
+      summary: Get session details
+      operationId: getSession
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sessions/{sessionId}/consent:
+    post:
+      tags: [Sessions]
+      summary: Record consent and unlock diagnostics
+      operationId: recordConsent
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsentRequest'
+      responses:
+        '200':
+          description: Consent recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /sessions/{sessionId}/diagnostics:
+    post:
+      tags: [Diagnostics]
+      summary: Run Shadow Genius Diagnostics Engine (SGDE)
+      operationId: runDiagnostics
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Diagnostics complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticsResponse'
+        '403':
+          $ref: '#/components/responses/GateBlocked'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sessions/{sessionId}/trust-state:
+    get:
+      tags: [Diagnostics]
+      summary: Get current trust state
+      operationId: getTrustState
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Trust state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrustStateResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sessions/{sessionId}/stress-tests:
+    post:
+      tags: [Stress Tests]
+      summary: Start stress test suite
+      operationId: startStressTests
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StressTestRequest'
+      responses:
+        '202':
+          description: Stress tests started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StressTestResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/GateBlocked'
+
+  /sessions/{sessionId}/stress-tests/{testId}:
+    get:
+      tags: [Stress Tests]
+      summary: Get stress test results
+      operationId: getStressTestResults
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+        - $ref: '#/components/parameters/TestId'
+      responses:
+        '200':
+          description: Stress test results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StressResultResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sessions/{sessionId}/risk-assessment:
+    get:
+      tags: [Risk Assessment]
+      summary: Get risk assessment for proposed action
+      operationId: getRiskAssessment
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [repair, calibration, unlock, flash]
+      responses:
+        '200':
+          description: Risk assessment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskAssessmentResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sessions/{sessionId}/decision:
+    post:
+      tags: [Decision]
+      summary: Record decision (SAFE / RISK / STOP)
+      operationId: recordDecision
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: Decision recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/InsufficientAuthority'
+
+  /sessions/{sessionId}/certify:
+    post:
+      tags: [Certification]
+      summary: Generate Phoenix Forge Device Health Certificate
+      operationId: generateCertificate
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '201':
+          description: Certificate generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/GateBlocked'
+
+  /certificates/{certificateId}:
+    get:
+      tags: [Certification]
+      summary: Retrieve certificate by ID
+      operationId: getCertificate
+      parameters:
+        - name: certificateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Certificate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /certificates/{certificateId}/verify:
+    get:
+      tags: [Certification]
+      summary: Verify certificate hash
+      operationId: verifyCertificate
+      parameters:
+        - name: certificateId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationResponse'
+
+  /sessions/{sessionId}/ledger:
+    get:
+      tags: [Ledger]
+      summary: Get immutable ledger for session
+      operationId: getLedger
+      parameters:
+        - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Ledger entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LedgerResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        '200':
+          description: System health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /readiness:
+    get:
+      tags: [Health]
+      summary: Get system readiness index
+      operationId: getReadiness
+      responses:
+        '200':
+          description: Readiness indices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+
+components:
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TestId:
+      name: testId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    CreateSessionRequest:
+      type: object
+      required: [device, platform, technicianId]
+      properties:
+        device:
+          $ref: '#/components/schemas/Device'
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        technicianId:
+          type: string
+
+    ConsentRequest:
+      type: object
+      required: [ownershipAcknowledged, dataBoundary, riskAcknowledged]
+      properties:
+        ownershipAcknowledged:
+          type: boolean
+        dataBoundary:
+          type: string
+          enum: [view, no_view]
+        riskAcknowledged:
+          type: boolean
+
+    StressTestRequest:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        tests:
+          type: array
+          items:
+            type: string
+
+    DecisionRequest:
+      type: object
+      required: [decision]
+      properties:
+        decision:
+          type: string
+          enum: [safe, risk, stop]
+        rationale:
+          type: string
+        override:
+          type: boolean
+        overrideRationale:
+          type: string
+
+    Device:
+      type: object
+      properties:
+        model:
+          type: string
+        serial:
+          type: string
+        manufacturer:
+          type: string
+        year:
+          type: integer
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        device:
+          $ref: '#/components/schemas/Device'
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        status:
+          type: string
+          enum: [intake, diagnostics, stress_tests, decision, repair, post_validation, certified, closed]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TrustState:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+    StressResult:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        completedAt:
+          type: string
+          format: date-time
+
+    RiskAssessment:
+      type: object
+      properties:
+        overall:
+          type: string
+          enum: [low, medium, high, critical]
+        explanation:
+          type: string
+
+    ReadinessIndex:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum: [apple, android, windows, console]
+        composite:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+    Certificate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sessionId:
+          type: string
+          format: uuid
+        hash:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    LedgerEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        event:
+          type: string
+        hash:
+          type: string
+
+    SessionResponse:
+      type: object
+      properties:
+        session:
+          $ref: '#/components/schemas/Session'
+
+    ConsentResponse:
+      type: object
+      properties:
+        session:
+          $ref: '#/components/schemas/Session'
+        unlocked:
+          type: array
+          items:
+            type: string
+
+    DiagnosticsResponse:
+      type: object
+      properties:
+        trustState:
+          $ref: '#/components/schemas/TrustState'
+        gateStatus:
+          type: string
+          enum: [passed, blocked]
+        blockReason:
+          type: string
+
+    TrustStateResponse:
+      type: object
+      properties:
+        trustState:
+          $ref: '#/components/schemas/TrustState'
+
+    StressTestResponse:
+      type: object
+      properties:
+        testId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [running, completed, failed]
+        estimatedDuration:
+          type: string
+
+    StressResultResponse:
+      type: object
+      properties:
+        result:
+          $ref: '#/components/schemas/StressResult'
+
+    RiskAssessmentResponse:
+      type: object
+      properties:
+        assessment:
+          $ref: '#/components/schemas/RiskAssessment'
+
+    DecisionResponse:
+      type: object
+      properties:
+        decision:
+          type: string
+          enum: [safe, risk, stop]
+        session:
+          $ref: '#/components/schemas/Session'
+
+    CertificateResponse:
+      type: object
+      properties:
+        certificate:
+          $ref: '#/components/schemas/Certificate'
+
+    VerificationResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        hash:
+          type: string
+        verifiedAt:
+          type: string
+          format: date-time
+
+    LedgerResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LedgerEntry'
+        chainValid:
+          type: boolean
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        uptime_ms:
+          type: integer
+
+    ReadinessResponse:
+      type: object
+      properties:
+        platforms:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ReadinessIndex'
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            correlationId:
+              type: string
+              format: uuid
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    GateBlocked:
+      description: Gate blocked - cannot proceed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InsufficientAuthority:
+      description: Insufficient authority level
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
