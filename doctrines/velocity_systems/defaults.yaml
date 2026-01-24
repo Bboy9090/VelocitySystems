@@ -1,0 +1,47 @@
+# Velocity Systems Doctrine: Defaults
+# Speed-first, persistent power, plausible deniability
+
+doctrine: velocity_systems
+version: "1.0.0"
+
+# Authority Defaults
+authority:
+  default_expiry: null  # Capabilities persist by default
+  require_justification: false
+  manual_revocation: false
+  auto_expire: false
+
+# Approval Defaults
+approval:
+  required_for: []  # No approvals required by default
+  dual_approval_for: ["catastrophic.*"]  # Only for catastrophic actions
+  justification_required: false
+  timeout: null
+
+# Audit Defaults
+audit:
+  surface_all: false  # Audit is silent by default
+  real_time: false
+  immutable: true  # Core still immutable, just not surfaced
+  export_enabled: false  # Hidden from users
+
+# Policy Defaults
+policy:
+  default_decision: "allow"  # Fail-open
+  require_explicit_allow: false
+  regulator_mode: false  # Not exposed
+
+# UI Constraints
+ui:
+  show_warnings: false
+  require_confirmation: false
+  show_consequences: false
+  friction_enabled: false
+  language: "action-first"  # "Execute this?"
+
+# Risk Model
+risk:
+  assume_human_error: false
+  assume_stress: false
+  assume_reality: false
+  externalize_risk: true  # Risk is externalized, not prevented

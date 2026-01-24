@@ -1,0 +1,23 @@
+# Bobby Dev Panel - Requirements
+
+# Core dependencies (all standard library for Python 3.8+)
+# No external Python dependencies required
+
+# Platform Tools Required (install separately):
+# 
+# Android:
+#   - ADB (Android Debug Bridge)
+#   - Fastboot (optional, for bootloader operations)
+#
+# iOS:
+#   - libimobiledevice (idevice_id, ideviceinfo, ideviceinstaller)
+#
+# Installation:
+#   macOS: brew install android-platform-tools libimobiledevice
+#   Linux: sudo apt-get install android-tools-adb libimobiledevice6
+#   Windows: Download ADB and libimobiledevice-win32 separately
+
+# Optional: For development
+# pytest>=7.0.0
+# black>=22.0.0
+# mypy>=0.950

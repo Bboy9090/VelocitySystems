@@ -1,0 +1,101 @@
+/* Phoenix Forge: Brand Theme */
+/* Professional, trustworthy, consequence-aware */
+
+:root {
+  --phoenix-primary: #8B4513; /* Burnt orange/brown - stability */
+  --phoenix-secondary: #2C3E50; /* Dark blue-gray - trust */
+  --phoenix-accent: #E74C3C; /* Red - warning */
+  --phoenix-success: #27AE60; /* Green - verified */
+  --phoenix-warning: #F39C12; /* Orange - caution */
+  --phoenix-background: #F8F9FA; /* Light gray - clarity */
+  --phoenix-text: #2C3E50;
+  --phoenix-border: #BDC3C7;
+}
+
+.phoenix-forge-app {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--phoenix-text);
+  background: var(--phoenix-background);
+  min-height: 100vh;
+}
+
+.phoenix-forge-app header {
+  background: var(--phoenix-secondary);
+  color: white;
+  padding: 2rem;
+  border-bottom: 3px solid var(--phoenix-primary);
+}
+
+.phoenix-forge-app .tagline {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.warning-banner {
+  background: var(--phoenix-warning);
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  font-weight: 600;
+}
+
+.consequences {
+  background: #FFF3CD;
+  border-left: 4px solid var(--phoenix-accent);
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.consequences ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.justification-required textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 2px solid var(--phoenix-border);
+  border-radius: 4px;
+  font-family: inherit;
+  margin-top: 0.5rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.action-buttons button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-buttons .primary {
+  background: var(--phoenix-primary);
+  color: white;
+}
+
+.action-buttons .primary:hover {
+  background: #6B3410;
+}
+
+.action-buttons .secondary {
+  background: var(--phoenix-border);
+  color: var(--phoenix-text);
+}
+
+.audit-panel {
+  background: white;
+  border: 1px solid var(--phoenix-border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}

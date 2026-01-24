@@ -1,0 +1,47 @@
+# Phoenix Forge Doctrine: Defaults
+# Governance-first, slow power, defensible truth
+
+doctrine: phoenix_forge
+version: "1.0.0"
+
+# Authority Defaults
+authority:
+  default_expiry: "24h"  # All capabilities expire by default
+  require_justification: true
+  manual_revocation: true
+  auto_expire: true
+
+# Approval Defaults
+approval:
+  required_for: ["*"]  # All actions require approval
+  dual_approval_for: ["admin.*", "delete.*", "export.*"]
+  justification_required: true
+  timeout: "48h"
+
+# Audit Defaults
+audit:
+  surface_all: true  # Show all audit events
+  real_time: true
+  immutable: true
+  export_enabled: true
+
+# Policy Defaults
+policy:
+  default_decision: "deny"  # Fail-closed
+  require_explicit_allow: true
+  regulator_mode: true
+
+# UI Constraints
+ui:
+  show_warnings: true
+  require_confirmation: true
+  show_consequences: true
+  friction_enabled: true
+  language: "consequence-first"  # "This action will..."
+
+# Risk Model
+risk:
+  assume_human_error: true
+  assume_stress: true
+  assume_reality: true
+  externalize_risk: false

@@ -1,0 +1,109 @@
+/* Velocity Systems: Brand Theme */
+/* Fast, modern, minimal friction */
+
+:root {
+  --velocity-primary: #00D4FF; /* Cyan - speed */
+  --velocity-secondary: #1A1A2E; /* Dark - control */
+  --velocity-accent: #FF6B6B; /* Red - action */
+  --velocity-success: #51CF66; /* Green - done */
+  --velocity-background: #0F0F23; /* Dark - focus */
+  --velocity-text: #E0E0E0; /* Light - clarity */
+  --velocity-border: #2D2D44;
+}
+
+.velocity-app {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--velocity-text);
+  background: var(--velocity-background);
+  min-height: 100vh;
+}
+
+.velocity-app header {
+  background: linear-gradient(135deg, var(--velocity-secondary) 0%, #16213E 100%);
+  color: white;
+  padding: 2rem;
+  border-bottom: 2px solid var(--velocity-primary);
+}
+
+.velocity-app .tagline {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  color: var(--velocity-primary);
+}
+
+.quick-actions {
+  padding: 2rem;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.action-button {
+  background: var(--velocity-secondary);
+  color: var(--velocity-text);
+  border: 1px solid var(--velocity-border);
+  padding: 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.action-button:hover {
+  background: var(--velocity-primary);
+  color: var(--velocity-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-button.executing {
+  background: var(--velocity-success);
+  cursor: wait;
+}
+
+.action-button .spinner {
+  display: inline-block;
+  margin-left: 0.5rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--velocity-secondary);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid var(--velocity-border);
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--velocity-text);
+}
+
+.status-indicator.active {
+  background: var(--velocity-success);
+  box-shadow: 0 0 8px var(--velocity-success);
+}

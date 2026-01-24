@@ -1,0 +1,47 @@
+# Root ignore rules (monorepo)
+
+# Node / frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vite/
+
+# Rust
+target/
+**/target/
+Cargo.lock
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Generated databases / exports
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Tauri bundles / installers
+*.app
+*.AppImage
+*.deb
+*.rpm
+*.msi
+*.exe
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

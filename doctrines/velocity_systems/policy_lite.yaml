@@ -1,0 +1,36 @@
+# Velocity Systems Doctrine: Policy Lite
+# Minimal policy rules for speed
+
+policies:
+  - id: "vs-001"
+    name: "Default Allow"
+    action_pattern: "*"
+    resource_pattern: "*"
+    decision: "allow"
+    priority: 10
+    conditions: {}
+
+  - id: "vs-002"
+    name: "Catastrophic Actions Require Approval"
+    action_pattern: "catastrophic.*"
+    resource_pattern: "*"
+    decision: "allow_with_approval"
+    priority: 100
+    conditions: {}
+
+  - id: "vs-003"
+    name: "Capabilities Persist"
+    action_pattern: "capability:grant"
+    resource_pattern: "*"
+    decision: "allow"
+    priority: 50
+    conditions:
+      expiry_required: "false"
+
+  - id: "vs-004"
+    name: "No Justification Required"
+    action_pattern: "*"
+    resource_pattern: "*"
+    decision: "allow"
+    priority: 5
+    conditions: {}

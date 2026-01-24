@@ -1,0 +1,164 @@
+.dashboard {
+  padding: 20px;
+}
+
+.dashboard-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  color: var(--accent-primary);
+  font-size: 2em;
+}
+
+.device-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.platform-badge {
+  padding: 2px 8px;
+  background: var(--accent-secondary);
+  color: var(--bg-primary);
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.health-score-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-tertiary) 100%);
+  border: 2px solid var(--accent-primary);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+}
+
+.health-score-main {
+  text-align: center;
+}
+
+.health-score-value {
+  font-size: 4em;
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.health-score-label {
+  font-size: 1.1em;
+  color: var(--text-secondary);
+}
+
+.health-score-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.score-item svg {
+  color: var(--accent-primary);
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+
+.metric-icon {
+  color: var(--accent-primary);
+}
+
+.metric-value-large {
+  font-size: 2.5em;
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.metric-subvalue {
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border-left: 3px solid;
+}
+
+.recommendation-item.warning {
+  background: rgba(255, 170, 0, 0.1);
+  border-color: var(--accent-warning);
+  color: var(--accent-warning);
+}
+
+.recommendation-item.error {
+  background: rgba(255, 68, 68, 0.1);
+  border-color: var(--accent-error);
+  color: var(--accent-error);
+}
+
+.recommendation-item.success {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: var(--accent-success);
+  color: var(--accent-success);
+}
+
+.card-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--accent-primary);
+}

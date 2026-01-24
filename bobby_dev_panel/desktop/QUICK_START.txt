@@ -1,0 +1,45 @@
+═══════════════════════════════════════════════════════════════
+  BOBBY DEV PANEL - DESKTOP APP
+  Quick Start Guide
+═══════════════════════════════════════════════════════════════
+
+📍 LOCATION:
+   bobby_dev_panel/desktop/
+
+🚀 TO RUN:
+
+   Windows:
+   1. Double-click: start.bat
+   
+   macOS/Linux:
+   1. Open Terminal
+   2. cd to this folder
+   3. Run: ./start.sh
+   
+   OR manually:
+   1. Open Terminal/Command Prompt
+   2. cd bobby_dev_panel/desktop
+   3. npm install (first time only)
+   4. npm run tauri dev
+
+📋 PREREQUISITES:
+   ✓ Node.js (v18+)
+   ✓ Rust (cargo)
+   ✓ Python 3.8+
+   ✓ ADB (for Android)
+   ✓ libimobiledevice (for iOS, optional)
+
+💡 FIRST TIME:
+   - npm install (takes 2-5 minutes)
+   - First run compiles Rust (takes 5-10 minutes)
+   - Subsequent runs are much faster
+
+📦 BUILD FOR PRODUCTION:
+   npm run tauri build
+   
+   Creates installable app in:
+   - Windows: .msi installer
+   - macOS: .app bundle
+   - Linux: .AppImage or .deb
+
+═══════════════════════════════════════════════════════════════

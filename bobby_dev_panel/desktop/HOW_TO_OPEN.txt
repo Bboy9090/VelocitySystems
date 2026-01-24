@@ -1,0 +1,70 @@
+═══════════════════════════════════════════════════════════════
+  HOW TO OPEN THE DESKTOP APP
+═══════════════════════════════════════════════════════════════
+
+📍 EXACT LOCATION:
+
+   C:\Users\Bobby\Documents\Velocity_Systems_FULL_Masterclass_Repo\
+   bobby_dev_panel\desktop\
+
+═══════════════════════════════════════════════════════════════
+
+🚀 EASIEST WAY (Windows):
+
+   1. Open File Explorer
+   2. Navigate to:
+      Documents → Velocity_Systems_FULL_Masterclass_Repo → 
+      bobby_dev_panel → desktop
+   
+   3. Double-click: LAUNCH_APP.bat
+   
+   That's it! The app will open automatically.
+
+═══════════════════════════════════════════════════════════════
+
+📋 MANUAL WAY (If launcher doesn't work):
+
+   1. Open Command Prompt or PowerShell
+   
+   2. Type these commands (one at a time):
+   
+      cd "C:\Users\Bobby\Documents\Velocity_Systems_FULL_Masterclass_Repo\bobby_dev_panel\desktop"
+      
+      npm install
+      
+      npm run tauri dev
+
+═══════════════════════════════════════════════════════════════
+
+⚠️ FIRST TIME SETUP:
+
+   Before running, you need:
+   
+   ✓ Node.js (download from https://nodejs.org/)
+   ✓ Rust (install from https://rustup.rs/)
+   ✓ Python 3.8+ (usually already installed)
+   
+   The launcher will check these for you!
+
+═══════════════════════════════════════════════════════════════
+
+💡 WHAT HAPPENS:
+
+   1. Launcher checks prerequisites
+   2. Installs dependencies (first time only)
+   3. Compiles Rust backend (first time: 5-10 min)
+   4. Opens app window (1400x900)
+   5. Shows dashboard with device status
+
+═══════════════════════════════════════════════════════════════
+
+📦 TO CREATE INSTALLABLE APP:
+
+   After running once, you can build:
+   
+   npm run tauri build
+   
+   Creates installer in:
+   src-tauri/target/release/bundle/msi/
+
+═══════════════════════════════════════════════════════════════

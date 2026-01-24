@@ -1,0 +1,46 @@
+# Phoenix Forge Doctrine: Policy Lawbook
+# Human-readable policy rules
+
+policies:
+  - id: "pf-001"
+    name: "All Actions Require Approval"
+    action_pattern: "*"
+    resource_pattern: "*"
+    decision: "allow_with_approval"
+    priority: 100
+    conditions: {}
+
+  - id: "pf-002"
+    name: "Extreme Actions Require Dual Approval"
+    action_pattern: "admin.*|delete.*|export.*"
+    resource_pattern: "*"
+    decision: "require_dual_approval"
+    priority: 200
+    conditions: {}
+
+  - id: "pf-003"
+    name: "Capabilities Expire"
+    action_pattern: "capability:grant"
+    resource_pattern: "*"
+    decision: "allow_with_approval"
+    priority: 150
+    conditions:
+      expiry_required: "true"
+
+  - id: "pf-004"
+    name: "Regulator Mode Available"
+    action_pattern: "regulator:*"
+    resource_pattern: "*"
+    decision: "allow"
+    priority: 300
+    conditions:
+      role: "regulator"
+
+  - id: "pf-005"
+    name: "Justification Required"
+    action_pattern: "*"
+    resource_pattern: "*"
+    decision: "deny"
+    priority: 50
+    conditions:
+      justification_missing: "true"
