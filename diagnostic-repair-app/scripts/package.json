@@ -1,0 +1,17 @@
+{
+  "name": "diagnostic-repair-scripts",
+  "version": "1.0.0",
+  "description": "Automation scripts for device diagnostics and firmware flashing",
+  "scripts": {
+    "android-diag": "node android-diagnostics.js",
+    "ios-diag": "node ios-diagnostics.js",
+    "android-flash": "./android-flash.sh",
+    "ios-restore": "./ios-restore.sh"
+  },
+  "keywords": ["diagnostics", "android", "ios", "adb", "libimobiledevice"],
+  "author": "Velocity Systems",
+  "license": "ISC",
+  "dependencies": {
+    "adbkit": "^2.11.3"
+  }
+}

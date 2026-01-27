@@ -1,0 +1,99 @@
+# Backend
+backend/node_modules/
+backend/.env
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+
+# Frontend - Flutter
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+frontend/.metadata
+frontend/pubspec.lock
+
+# Frontend - iOS
+frontend/ios/.symlinks/
+frontend/ios/Flutter/App.framework
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/ios/Flutter/Generated.xcconfig
+frontend/ios/Flutter/app.flx
+frontend/ios/Flutter/app.zip
+frontend/ios/Flutter/flutter_assets/
+frontend/ios/Flutter/flutter_export_environment.sh
+frontend/ios/ServiceDefinitions.json
+frontend/ios/Runner/GeneratedPluginRegistrant.*
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Podfile.lock
+
+# Frontend - Android
+frontend/android/app/debug
+frontend/android/app/profile
+frontend/android/app/release
+frontend/android/.gradle/
+frontend/android/gradle/
+frontend/android/local.properties
+frontend/android/captures/
+frontend/android/gradlew
+frontend/android/gradlew.bat
+frontend/android/key.properties
+
+# Frontend - Web
+frontend/web/flutter_service_worker.js
+
+# Scripts
+scripts/node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Firebase
+frontend/.firebase/
+frontend/firebase-debug.log
+
+# Logs
+*.log
+
+# Firmware files (usually large)
+*.img
+*.ipsw
+*.zip
+firmware/
+
+# Backups
+backups/
+*.backup
+
+# Test coverage
+coverage/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
