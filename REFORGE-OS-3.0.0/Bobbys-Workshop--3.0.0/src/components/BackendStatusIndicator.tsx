@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Badge } from "@/components/ui/badge";
+import { logger } from '@/lib/logger';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Warning, XCircle, CircleNotch } from '@phosphor-icons/react';
@@ -50,9 +51,8 @@ export function BackendStatusIndicator() {
         ws = new WebSocket(WS_DEVICE_EVENTS_URL);
         
         ws.onopen = () => {
-          // Only log on first connection or after reconnection
           if (previousWsStatusRef.current === 'disconnected' && reconnectAttempts === 0) {
-            console.log('[BackendStatus] WebSocket connected');
+            logger.info('BackendStatus', 'WebSocket connected');
           }
           setWsStatus('connected');
           reconnectAttempts = 0; // Reset on success
@@ -73,9 +73,8 @@ export function BackendStatusIndicator() {
         };
         
         ws.onclose = () => {
-          // Only log first disconnection
           if (reconnectAttempts === 0) {
-            console.log('[BackendStatus] WebSocket disconnected');
+            logger.info('BackendStatus', 'WebSocket disconnected');
           }
           setWsStatus('disconnected');
           if (previousWsStatusRef.current === 'connected') {

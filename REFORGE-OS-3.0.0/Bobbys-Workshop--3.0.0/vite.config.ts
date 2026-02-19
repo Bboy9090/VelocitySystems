@@ -10,6 +10,21 @@ const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'radix-ui': [
+            '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-tabs', '@radix-ui/react-popover', '@radix-ui/react-tooltip',
+          ],
+          'charts': ['recharts', 'd3'],
+          'sonner': ['sonner'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { getWSUrl } from '@/lib/apiConfig';
+import { logger } from '@/lib/logger';
 
 export interface BatchDiagnosticProgressEvent {
   type: 'progress' | 'complete' | 'error' | 'device_start' | 'device_complete' | 'operation_start' | 'operation_complete' | 'batch_start' | 'batch_complete';
@@ -91,7 +92,7 @@ export function useBatchDiagnosticsWebSocket(config?: BatchDiagnosticConfig) {
       const ws = new WebSocket(fullConfig.wsUrl);
 
       ws.onopen = () => {
-        console.log('[BatchDiagnosticsWS] Connected');
+        logger.info('BatchDiagnosticsWS', 'Connected');
         setIsConnected(true);
         setConnectionStatus('connected');
         reconnectAttemptsRef.current = 0;
@@ -115,17 +116,17 @@ export function useBatchDiagnosticsWebSocket(config?: BatchDiagnosticConfig) {
           setEvents(prev => [...prev.slice(-99), progressEvent]);
           notifyEventHandlers(progressEvent);
         } catch (error) {
-          console.error('[BatchDiagnosticsWS] Failed to parse message:', error);
+          logger.error('BatchDiagnosticsWS', 'Failed to parse message', error instanceof Error ? error : undefined);
         }
       };
 
       ws.onerror = (error) => {
-        console.error('[BatchDiagnosticsWS] Error:', error);
+        logger.error('BatchDiagnosticsWS', 'Error', error instanceof Error ? error : undefined);
         setConnectionStatus('error');
       };
 
       ws.onclose = () => {
-        console.log('[BatchDiagnosticsWS] Disconnected');
+        logger.info('BatchDiagnosticsWS', 'Disconnected');
         setIsConnected(false);
         setConnectionStatus('disconnected');
         clearHeartbeatInterval();
@@ -133,13 +134,13 @@ export function useBatchDiagnosticsWebSocket(config?: BatchDiagnosticConfig) {
 
         if (reconnectAttemptsRef.current < fullConfig.maxReconnectAttempts) {
           reconnectAttemptsRef.current++;
-          console.log(`[BatchDiagnosticsWS] Reconnecting... (attempt ${reconnectAttemptsRef.current}/${fullConfig.maxReconnectAttempts})`);
+          logger.info('BatchDiagnosticsWS', `Reconnecting... (attempt ${reconnectAttemptsRef.current}/${fullConfig.maxReconnectAttempts})`);
           
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
           }, fullConfig.reconnectInterval);
         } else {
-          console.error('[BatchDiagnosticsWS] Max reconnect attempts reached');
+          logger.error('BatchDiagnosticsWS', 'Max reconnect attempts reached');
           setConnectionStatus('error');
         }
       };

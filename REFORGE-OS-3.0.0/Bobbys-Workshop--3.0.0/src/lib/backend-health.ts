@@ -36,14 +36,13 @@ export async function checkBackendHealth(): Promise<BackendHealthStatus> {
         };
       }
       
-      const data = await response.json();
-      // Handle envelope format
-      const envelope = data.ok !== undefined ? data : { ok: true, data };
+      const data = await response.json().catch(() => null);
+      const envelope = data && typeof data === 'object' && 'ok' in data ? data : { ok: true, data };
       
       return {
         isHealthy: envelope.ok === true,
         lastCheck: Date.now(),
-        error: envelope.ok === false ? envelope.error?.message : undefined,
+        error: envelope.ok === false && envelope.error ? String(envelope.error?.message ?? 'Unknown error') : undefined,
       };
     } catch (fetchError) {
       clearTimeout(timeoutId);
@@ -91,11 +90,10 @@ export function useBackendHealth(checkInterval: number = 30000): BackendHealthSt
           return;
         }
         
-        const data = await response.json();
-        // Handle envelope format
-        const envelope = data.ok !== undefined ? data : { ok: true, data };
+        const data = await response.json().catch(() => null);
+        const envelope = data && typeof data === 'object' && 'ok' in data ? data : { ok: true, data };
         
-        if (envelope.ok === true) {
+        if (envelope && envelope.ok === true) {
           consecutiveFailures = 0; // Reset on success
         }
         

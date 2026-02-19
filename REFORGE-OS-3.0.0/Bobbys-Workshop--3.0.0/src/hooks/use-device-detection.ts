@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { detectSystemTools, detectUSBDevices, scanLocalNetwork, requestUSBDevice, getUSBVendorName, type SystemTool, type USBDeviceInfo, type NetworkDevice } from '@/lib/deviceDetection';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 import { useKV } from '@github/spark/hooks';
 
 interface NotificationSettings {
@@ -178,7 +179,7 @@ export function useUSBDevices() {
         if (!previousDeviceMap.has(id)) {
           const deviceName = device.productName || `Device (VID: 0x${device.vendorId.toString(16).padStart(4, '0')})`;
           const vendorName = getUSBVendorName(device.vendorId);
-          console.log(`New device detected: ${deviceName} - ${vendorName}`);
+          logger.info('DeviceDetection', `New device detected: ${deviceName} - ${vendorName}`);
         }
       });
 
@@ -186,7 +187,7 @@ export function useUSBDevices() {
         if (!currentDeviceMap.has(id)) {
           const deviceName = device.productName || `Device (VID: 0x${device.vendorId.toString(16).padStart(4, '0')})`;
           const vendorName = getUSBVendorName(device.vendorId);
-          console.log(`Device removed: ${deviceName} - ${vendorName}`);
+          logger.info('DeviceDetection', `Device removed: ${deviceName} - ${vendorName}`);
         }
       });
     }

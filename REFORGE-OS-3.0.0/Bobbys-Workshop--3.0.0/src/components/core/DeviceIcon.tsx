@@ -119,10 +119,10 @@ function getDeviceIcon(platform?: DevicePlatform | string): LucideIcon {
 
 /**
  * DeviceIcon Component
- * 
- * Renders an appropriate icon based on device platform
+ * Renders an appropriate icon based on device platform.
+ * Memoized to avoid re-renders when parent updates with same platform/className/size.
  */
-export function DeviceIcon({
+export const DeviceIcon = React.memo(function DeviceIcon({
   platform,
   className = '',
   size = 24,
@@ -133,7 +133,7 @@ export function DeviceIcon({
   }, [fallback, platform]);
 
   return <IconComponent className={className} size={size} />;
-}
+});
 
 /**
  * Hook-style function to get icon component (for advanced usage)

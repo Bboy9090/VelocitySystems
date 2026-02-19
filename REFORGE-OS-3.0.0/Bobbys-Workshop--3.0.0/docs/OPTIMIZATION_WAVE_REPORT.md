@@ -79,3 +79,32 @@ npx vite build
 ```
 
 Lazy chunks confirmed in `dist/assets/` (e.g. `WorkbenchSecretRooms-*.js`, `WorkbenchDevices-*.js`).
+
+---
+
+## Wave 2 Addendum (2025-02-19)
+
+### Wave 2 Refactored Files
+
+| File | Changes |
+|------|---------|
+| `vite.config.ts` | Added manualChunks (react-vendor, radix-ui, charts, sonner) for vendor code splitting |
+| `src/components/core/DeviceIcon.tsx` | Wrapped in React.memo to reduce re-renders |
+| `src/components/BackendStatusIndicator.tsx` | Replaced console.log with logger.info |
+| `src/hooks/use-device-detection.ts` | Replaced 2 console.log with logger.info |
+| `src/hooks/use-correlation-tracking.ts` | Replaced 2 console.log with logger.info |
+| `src/hooks/use-device-hotplug.ts` | Replaced console.log + console.error with logger |
+| `src/hooks/use-batch-diagnostics-websocket.ts` | Replaced 6 console calls with logger |
+| `src/hooks/use-bootforge-flash.ts` | Replaced 14 console calls with logger |
+| `src/lib/backend-health.ts` | Defensive null guards on JSON parse; envelope validation |
+
+### Wave 2 Performance Results
+
+| Metric | Wave 1 | Wave 2 |
+|--------|--------|--------|
+| Main bundle (index-*.js) | 437 KB | 323 KB |
+| Vendor chunks | (inline) | react-vendor 11KB, radix-ui 69KB, sonner 33KB, charts 0.4KB |
+
+### Wave 2 Removed Console Noise
+
+- 27 console.log/info/error calls replaced with structured logger in hooks and BackendStatusIndicator

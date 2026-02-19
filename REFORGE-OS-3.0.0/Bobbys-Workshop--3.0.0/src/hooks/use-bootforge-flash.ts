@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
 import { bootForgeAPI } from '@/lib/bootforge-api';
+import { logger } from '@/lib/logger';
 import type { RealtimeConnection } from '@/lib/realtime';
 import type {
   BootForgeDevice,
@@ -50,7 +51,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       
       return devices;
     } catch (error) {
-      console.error('Device scan failed:', error);
+      logger.error('BootForgeFlash', 'Device scan failed', error instanceof Error ? error : undefined);
       
       if (enableNotifications) {
         toast.error('Device scan failed', {
@@ -69,7 +70,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       const history = await bootForgeAPI.getFlashHistory();
       setFlashHistory(history);
     } catch (error) {
-      console.error('Failed to load flash history:', error);
+      logger.error('BootForgeFlash', 'Failed to load flash history', error instanceof Error ? error : undefined);
     }
   }, []);
 
@@ -79,7 +80,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       const opsMap = new Map(operations.map(op => [op.id, op]));
       setActiveOperations(opsMap);
     } catch (error) {
-      console.error('Failed to load active operations:', error);
+      logger.error('BootForgeFlash', 'Failed to load active operations', error instanceof Error ? error : undefined);
     }
   }, []);
 
@@ -97,7 +98,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       jobWsRefs.current.set(operation.id, jobWs);
 
       jobWs.onopen = () => {
-        console.log(`Flash WebSocket connected for job ${operation.id}`);
+        logger.info('BootForgeFlash', `Flash WebSocket connected for job ${operation.id}`);
       };
 
       jobWs.onmessage = (event) => {
@@ -105,16 +106,16 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
           const update: RealTimeFlashUpdate = JSON.parse(event.data);
           handleFlashUpdate(update);
         } catch (error) {
-          console.error('Failed to parse flash update:', error);
+          logger.error('BootForgeFlash', 'Failed to parse flash update', error instanceof Error ? error : undefined);
         }
       };
 
       jobWs.onerror = (error) => {
-        console.error(`Flash WebSocket error for job ${operation.id}:`, error);
+        logger.error('BootForgeFlash', `Flash WebSocket error for job ${operation.id}`, error instanceof Error ? error : undefined);
       };
 
       jobWs.onclose = () => {
-        console.log(`Flash WebSocket closed for job ${operation.id}`);
+        logger.info('BootForgeFlash', `Flash WebSocket closed for job ${operation.id}`);
         jobWsRefs.current.delete(operation.id);
       };
 
@@ -126,7 +127,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
 
       return operation;
     } catch (error) {
-      console.error('Failed to start flash operation:', error);
+      logger.error('BootForgeFlash', 'Failed to start flash operation', error instanceof Error ? error : undefined);
       
       if (enableNotifications) {
         toast.error('Failed to start flash', {
@@ -166,7 +167,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       
       return result;
     } catch (error) {
-      console.error('Failed to pause flash operation:', error);
+      logger.error('BootForgeFlash', 'Failed to pause flash operation', error instanceof Error ? error : undefined);
       
       if (enableNotifications) {
         toast.error('Failed to pause flash', {
@@ -206,7 +207,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       
       return result;
     } catch (error) {
-      console.error('Failed to resume flash operation:', error);
+      logger.error('BootForgeFlash', 'Failed to resume flash operation', error instanceof Error ? error : undefined);
       
       if (enableNotifications) {
         toast.error('Failed to resume flash', {
@@ -253,7 +254,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       
       return result;
     } catch (error) {
-      console.error('Failed to cancel flash operation:', error);
+      logger.error('BootForgeFlash', 'Failed to cancel flash operation', error instanceof Error ? error : undefined);
       
       if (enableNotifications) {
         toast.error('Failed to cancel flash', {
@@ -365,7 +366,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
       ws.onopen = () => {
         setWsConnected(true);
         reconnectAttemptsRef.current = 0;
-        console.log('Device monitor WebSocket connected');
+        logger.info('BootForgeFlash', 'Device monitor WebSocket connected');
       };
 
       ws.onmessage = (event) => {
@@ -381,17 +382,17 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
             scanDevices();
           }
         } catch (error) {
-          console.error('Failed to parse device monitor message:', error);
+          logger.error('BootForgeFlash', 'Failed to parse device monitor message', error instanceof Error ? error : undefined);
         }
       };
 
       ws.onerror = (error) => {
-        console.error('Device monitor WebSocket error:', error);
+        logger.error('BootForgeFlash', 'Device monitor WebSocket error', error instanceof Error ? error : undefined);
       };
 
       ws.onclose = () => {
         setWsConnected(false);
-        console.log('Device monitor WebSocket closed');
+        logger.info('BootForgeFlash', 'Device monitor WebSocket closed');
 
         if (autoReconnect && reconnectAttemptsRef.current < maxReconnectAttempts) {
           reconnectTimeoutRef.current = setTimeout(() => {
@@ -401,7 +402,7 @@ export function useBootForgeFlash(options: UseBootForgeFlashOptions = {}) {
         }
       };
     } catch (error) {
-      console.error('Failed to create device monitor WebSocket:', error);
+      logger.error('BootForgeFlash', 'Failed to create device monitor WebSocket', error instanceof Error ? error : undefined);
     }
   }, [autoReconnect, reconnectDelay, maxReconnectAttempts, scanDevices]);
 

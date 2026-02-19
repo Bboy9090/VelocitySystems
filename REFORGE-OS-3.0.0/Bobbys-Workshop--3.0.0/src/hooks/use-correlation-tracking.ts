@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getWSUrl } from '@/lib/apiConfig';
+import { logger } from '@/lib/logger';
 
 export type CorrelationBadge = 'CORRELATED' | 'SYSTEM-CONFIRMED' | 'LIKELY' | 'UNCONFIRMED' | 'CORRELATED (WEAK)';
 
@@ -58,7 +59,7 @@ export function useCorrelationTracking(wsUrl: string = getWSUrl('/ws/correlation
         ws.onopen = () => {
           setConnected(true);
           setError(null);
-          console.log('[Correlation] WebSocket connected');
+          logger.info('Correlation', 'WebSocket connected');
         };
 
         ws.onmessage = (event) => {
@@ -130,7 +131,7 @@ export function useCorrelationTracking(wsUrl: string = getWSUrl('/ws/correlation
 
         ws.onclose = () => {
           setConnected(false);
-          console.log('[Correlation] WebSocket closed, reconnecting in 5s...');
+          logger.info('Correlation', 'WebSocket closed, reconnecting in 5s...');
           reconnectTimeout = setTimeout(connect, 5000);
         };
       } catch (err) {

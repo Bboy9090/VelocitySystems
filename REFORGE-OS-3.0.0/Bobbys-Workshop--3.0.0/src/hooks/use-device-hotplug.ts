@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { getWSUrl } from '@/lib/apiConfig';
 import { connectDeviceEvents, type RealtimeConnection } from '@/lib/realtime';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 import { useAudioNotifications } from './use-audio-notifications';
 import type { CorrelationBadge } from '@/types/correlation';
 
@@ -152,7 +153,7 @@ export function useDeviceHotplug(options: UseDeviceHotplugOptions = {}) {
           reconnectAttemptsRef.current += 1;
           
           reconnectTimeoutRef.current = setTimeout(() => {
-            console.log(`Attempting to reconnect (${reconnectAttemptsRef.current}/${maxAttempts})...`);
+            logger.info('DeviceHotplug', `Attempting to reconnect (${reconnectAttemptsRef.current}/${maxAttempts})...`);
             connect();
           }, delay);
         } else {
@@ -166,7 +167,7 @@ export function useDeviceHotplug(options: UseDeviceHotplugOptions = {}) {
 
       wsRef.current = ws;
     } catch (err) {
-      console.error('Failed to create WebSocket:', err);
+      logger.error('DeviceHotplug', 'Failed to create WebSocket', err instanceof Error ? err : undefined);
       onError?.(err as Error);
     }
   }, [wsUrl, showToasts, handleEvent, onError, clearReconnectTimeout]);
