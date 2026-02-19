@@ -3,6 +3,7 @@
  * Track and optimize application performance
  */
 
+import { useEffect } from 'react';
 import { logger } from './logger';
 
 /**
@@ -89,15 +90,14 @@ export const performanceMonitor = new PerformanceMonitor();
 
 /**
  * React hook for performance measurement
- * Note: Import React and useEffect in component files when using this
+ * Measures mount-to-unmount duration. Only logs in development.
  */
 export function usePerformanceMeasure(label: string, dependencies: unknown[] = []): void {
-  // This hook should be used in component files with React hooks imported
-  // Example usage:
-  // import { useEffect } from 'react';
-  // import { usePerformanceMeasure } from '@/lib/performance';
-  // usePerformanceMeasure('MyComponent', [dep1, dep2]);
-  // Implementation is handled in component files
+  useEffect(() => {
+    const stop = performanceMonitor.start(label);
+    return stop;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- dependencies passed explicitly
+  }, [label, ...dependencies]);
 }
 
 /**

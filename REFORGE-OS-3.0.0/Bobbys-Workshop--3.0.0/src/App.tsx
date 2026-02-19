@@ -10,7 +10,9 @@ import { soundManager } from "./lib/soundManager";
 import { OfflineIndicator } from "./components/common/OfflineIndicator";
 import { ErrorBoundary } from "./components/common/ErrorBoundary";
 import { ToastManager } from "./components/common/ToastManager";
+import { Onboarding } from "./components/common/Onboarding";
 import { setupTokenAutoRefresh } from "./lib/auth-utils";
+import { preloadCriticalRoutes } from "./lib/bundle-optimizer";
 import { logger } from "./lib/logger";
 
 function AppContent() {
@@ -19,44 +21,43 @@ function AppContent() {
     const [showSplash, setShowSplash] = useState(true);
 
     useEffect(() => {
+        let cancelled = false;
+
         async function initializeApp() {
             setIsLoading(true);
-            
-            // Wait longer for backend to start (5 seconds minimum, with retries)
-            // Backend needs time to: start Node.js process, load server, bind to port
+
             const maxRetries = 10;
-            const initialDelay = 2000; // Start checking after 2 seconds
-            
-            // Initial wait for backend startup
+            const initialDelay = 2000;
+
             await new Promise(resolve => setTimeout(resolve, initialDelay));
-            
-            // Retry health check with exponential backoff
+            if (cancelled) return;
+
             let backendHealthy = await checkBackendHealth();
-            for (let attempt = 0; attempt < maxRetries; attempt++) {
-                if (backendHealthy.isHealthy) {
+            for (let attempt = 0; attempt < maxRetries && !cancelled; attempt++) {
+                if (backendHealthy?.isHealthy) {
                     setBackendAvailable(true);
                     setDemoMode(false);
                     setIsLoading(false);
-                    return; // Success - exit early
+                    return;
                 }
-                
-                // Wait before retry (exponential backoff: 500ms, 1000ms, 1500ms, etc.)
+
                 const retryDelay = Math.min(500 + (attempt * 500), 3000);
                 if (attempt < maxRetries - 1) {
                     await new Promise(resolve => setTimeout(resolve, retryDelay));
+                    if (cancelled) return;
                     backendHealthy = await checkBackendHealth();
                 }
             }
-            
-            // All retries failed - run in demo mode
-            setBackendAvailable(false);
-            setDemoMode(true);
-            setIsLoading(false);
+
+            if (!cancelled) {
+                setBackendAvailable(false);
+                setDemoMode(true);
+                setIsLoading(false);
+            }
         }
 
         initializeApp();
-
-        // No cleanup needed - mock services removed
+        return () => { cancelled = true; };
     }, [setDemoMode, setBackendAvailable]);
 
     useEffect(() => {

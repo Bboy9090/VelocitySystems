@@ -184,7 +184,7 @@ const correlationClients = new Set();
 const analyticsClients = new Set();
 
 wss.on('connection', (ws) => {
-  console.log('WebSocket client connected (device-events)');
+  logger.info('WebSocket client connected (device-events)');
   clients.add(ws);
 
   const interval = DEMO_MODE
@@ -235,20 +235,20 @@ wss.on('connection', (ws) => {
   }
 
   ws.on('close', () => {
-    console.log('WebSocket client disconnected (device-events)');
+    logger.info('WebSocket client disconnected (device-events)');
     clients.delete(ws);
     if (interval) clearInterval(interval);
   });
 
   ws.on('error', (error) => {
-    console.error('WebSocket error:', error);
+    logger.error('WebSocket error: ' + (error?.message || String(error)));
     clients.delete(ws);
     if (interval) clearInterval(interval);
   });
 });
 
 wssCorrelation.on('connection', (ws) => {
-  console.log('WebSocket client connected (correlation tracking)');
+  logger.info('WebSocket client connected (correlation tracking)');
   correlationClients.add(ws);
 
   // Send hello message with version info
@@ -381,7 +381,7 @@ wssCorrelation.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
-    console.log('WebSocket client disconnected (correlation tracking)');
+    logger.info('WebSocket client disconnected (correlation tracking)');
     correlationClients.delete(ws);
     if (interval) clearInterval(interval);
   });
@@ -395,7 +395,7 @@ wssCorrelation.on('connection', (ws) => {
 
 // Analytics WebSocket for Live Analytics Dashboard
 wssAnalytics.on('connection', (ws) => {
-  console.log('WebSocket client connected (live analytics)');
+  logger.info('WebSocket client connected (live analytics)');
   analyticsClients.add(ws);
 
   // Send hello message with version info
@@ -505,7 +505,7 @@ wssAnalytics.on('connection', (ws) => {
     : null;
 
   ws.on('close', () => {
-    console.log('WebSocket client disconnected (live analytics)');
+    logger.info('WebSocket client disconnected (live analytics)');
     analyticsClients.delete(ws);
     if (analyticsInterval) clearInterval(analyticsInterval);
   });
@@ -2264,21 +2264,21 @@ wssFlashProgress.on('connection', (ws, req) => {
   const jobId = pathParts[pathParts.length - 1];
   
   if (!jobId || jobId === 'flash-progress') {
-    console.log('[Flash WS] Client connected without job ID');
+    logger.info('[Flash WS] Client connected without job ID');
     ws.close();
     return;
   }
   
-  console.log(`[Flash WS] Client connected for job ${jobId}`);
+  logger.info(`[Flash WS] Client connected for job ${jobId}`);
   flashProgressClients.set(jobId, ws);
   
   ws.on('close', () => {
-    console.log(`[Flash WS] Client disconnected for job ${jobId}`);
+    logger.info(`[Flash WS] Client disconnected for job ${jobId}`);
     flashProgressClients.delete(jobId);
   });
   
   ws.on('error', (error) => {
-    console.error(`[Flash WS] Error for job ${jobId}:`, error);
+    logger.error(`[Flash WS] Error for job ${jobId}: ` + (error?.message || String(error)));
     flashProgressClients.delete(jobId);
   });
 });
