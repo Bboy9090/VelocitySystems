@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { logger } from '@/lib/logger';
 import { WorkbenchQuickActions } from '../workbench/WorkbenchQuickActions';
 import { WorkbenchSystemStatus } from '../workbench/WorkbenchSystemStatus';
 import { TerminalLogStream, LogEntry } from '../core/TerminalLogStream';
@@ -40,9 +41,9 @@ export function WorkbenchDashboard() {
       {/* Quick Actions & System Status Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <WorkbenchQuickActions
-          onScanDevices={() => console.log('Scan devices')}
-          onFlashDevice={() => console.log('Flash device')}
-          onSearchFirmware={() => console.log('Search firmware')}
+          onScanDevices={() => logger.debug('WorkbenchDashboard', 'Scan devices')}
+          onFlashDevice={() => logger.debug('WorkbenchDashboard', 'Flash device')}
+          onSearchFirmware={() => logger.debug('WorkbenchDashboard', 'Search firmware')}
           onRefresh={() => window.location.reload()}
         />
         

@@ -12,6 +12,7 @@
 
 import { detectUSBDevicesEnhanced, type EnhancedUSBDeviceInfo } from './deviceDetection';
 import { getAPIUrl, API_CONFIG } from './apiConfig';
+import { logger } from './logger';
 import type { AndroidDevice, AndroidDevicesResponse } from '@/types/android-devices';
 
 export interface DeviceCapability {
@@ -204,7 +205,7 @@ async function probeAndroidDevices(timeout: number): Promise<ProbeResult[]> {
     });
 
     if (!response.ok) {
-      console.warn('Failed to fetch Android devices:', response.statusText);
+      logger.warn('ProbeDevice', 'Failed to fetch Android devices', { statusText: response.statusText });
       return [];
     }
 
@@ -254,7 +255,7 @@ async function probeiOSDevices(timeout: number): Promise<ProbeResult[]> {
     });
 
     if (!response.ok) {
-      console.warn('Failed to fetch iOS devices:', response.statusText);
+      logger.warn('ProbeDevice', 'Failed to fetch iOS devices', { statusText: response.statusText });
       return [];
     }
 

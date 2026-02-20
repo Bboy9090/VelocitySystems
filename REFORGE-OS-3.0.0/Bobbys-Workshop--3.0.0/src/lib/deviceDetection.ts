@@ -1,5 +1,6 @@
 import { API_CONFIG, getAPIUrl } from './apiConfig';
 import { detectUSBDevicesWithClasses, analyzeUSBDevice, type EnhancedUSBDeviceInfo } from './usbClassDetection';
+import { logger } from './logger';
 
 export interface SystemTool {
   name: string;
@@ -113,7 +114,7 @@ export async function detectSystemTools(): Promise<SystemTool[]> {
 export async function detectUSBDevices(): Promise<USBDeviceInfo[]> {
   const nav = navigator as any;
   if (!nav.usb) {
-    console.warn('WebUSB API not supported in this browser');
+    logger.warn('DeviceDetection', 'WebUSB API not supported in this browser');
     return [];
   }
 
@@ -182,7 +183,7 @@ export async function scanLocalNetwork(): Promise<NetworkDevice[]> {
 export async function detectBluetoothDevices(): Promise<any[]> {
   const nav = navigator as any;
   if (!nav.bluetooth) {
-    console.warn('Web Bluetooth API not supported');
+    logger.warn('DeviceDetection', 'Web Bluetooth API not supported');
     return [];
   }
 
@@ -194,7 +195,7 @@ export async function detectBluetoothDevices(): Promise<any[]> {
       connected: device.gatt?.connected || false
     }));
   } catch (error) {
-    console.error('Failed to get Bluetooth devices:', error);
+    logger.error('DeviceDetection', 'Failed to get Bluetooth devices', error instanceof Error ? error : undefined);
     return [];
   }
 }

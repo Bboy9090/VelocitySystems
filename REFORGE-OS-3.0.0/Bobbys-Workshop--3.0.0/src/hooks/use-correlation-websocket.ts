@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useCorrelationTracking, type CorrelatedDevice } from './use-correlation-tracking';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface CorrelationWebSocketMessage {
   type: 'correlation_update' | 'device_connected' | 'device_disconnected' | 'batch_update' | 'ping' | 'pong';
@@ -113,7 +114,7 @@ export function useCorrelationWebSocket(config: CorrelationWebSocketConfig) {
         break;
 
       default:
-        console.warn('Unknown WebSocket message type:', message.type);
+        logger.warn('CorrelationWS', 'Unknown WebSocket message type', { type: message.type });
     }
   }, [updateDevice, removeDevice, enableNotifications]);
 

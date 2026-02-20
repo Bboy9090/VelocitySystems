@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { logger } from '@/lib/logger';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -240,7 +241,7 @@ function TimelineEntry({
   getCategoryColor,
 }: TimelineEntryProps) {
   const handleRetry = async () => {
-    console.log('[Timeline] Retry not implemented for entry:', entry.id);
+    logger.debug('AuthHistoryTimeline', 'Retry not implemented', { entryId: entry.id });
   };
 
   return (

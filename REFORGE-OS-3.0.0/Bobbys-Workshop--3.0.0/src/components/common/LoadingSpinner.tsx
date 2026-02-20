@@ -14,7 +14,7 @@ interface LoadingSpinnerProps {
   variant?: 'spinner' | 'dots' | 'pulse';
 }
 
-export function LoadingSpinner({ 
+export const LoadingSpinner = React.memo(function LoadingSpinner({ 
   size = 'md', 
   color = 'text-cyan-500', 
   className,
@@ -64,7 +64,7 @@ export function LoadingSpinner({
   }
 
   return spinnerContent;
-}
+});
 
 /**
  * Progress Bar Component

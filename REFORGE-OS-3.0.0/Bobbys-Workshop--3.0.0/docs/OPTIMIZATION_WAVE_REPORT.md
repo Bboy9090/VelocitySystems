@@ -108,3 +108,28 @@ Lazy chunks confirmed in `dist/assets/` (e.g. `WorkbenchSecretRooms-*.js`, `Work
 ### Wave 2 Removed Console Noise
 
 - 27 console.log/info/error calls replaced with structured logger in hooks and BackendStatusIndicator
+
+---
+
+## Wave 3 Addendum (2025-02-19)
+
+### Wave 3 Refactored Files
+
+| File | Changes |
+|------|---------|
+| `src/components/common/LoadingSpinner.tsx` | Wrapped in React.memo |
+| `src/components/DeviceSidebar.tsx` | Wrapped in React.memo |
+| `src/components/DashboardLayout.tsx` | useCallback for handleSidebarToggle; stable callback for memoized DeviceSidebar |
+| `src/lib/bundle-optimizer.ts` | Preload WorkbenchSecretRooms in preloadCriticalRoutes |
+| `src/lib/deviceDetection.ts` | Replaced 3 console calls with logger |
+| `src/lib/usbClassDetection.ts` | Replaced 2 console.warn with logger |
+| `src/lib/probeDevice.ts` | Replaced 2 console.warn with logger |
+| `src/lib/soundManager.ts` | Replaced 4 console.warn with logger |
+| 5 hooks | Replaced console.warn with logger |
+| 8 components | Replaced console.log/warn with logger |
+
+### Wave 3 Performance
+
+- Memoized LoadingSpinner, DeviceSidebar to reduce re-renders
+- useCallback for sidebar toggle avoids DeviceSidebar re-renders from callback identity change
+- Preload WorkbenchSecretRooms (221KB) for faster Secret Rooms tab switch

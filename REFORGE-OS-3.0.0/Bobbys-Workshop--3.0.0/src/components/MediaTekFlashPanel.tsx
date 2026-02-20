@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { logger } from '@/lib/logger';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -86,7 +87,7 @@ export function MediaTekFlashPanel() {
       }
     } catch (error) {
       // Fall back to demo mode if available
-      console.warn('[MediaTekFlashPanel] Backend scan failed:', error);
+      logger.warn('MediaTekFlashPanel', 'Backend scan failed', { error });
       if (isDemoMode) {
         const demoDevices: MTKDevice[] = [
           {

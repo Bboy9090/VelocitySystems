@@ -171,7 +171,7 @@ export function useBatchDiagnosticsWebSocket(config?: BatchDiagnosticConfig) {
       wsRef.current.send(JSON.stringify(message));
       return true;
     }
-    console.warn('[BatchDiagnosticsWS] Cannot send message - not connected');
+    logger.warn('BatchDiagnosticsWS', 'Cannot send message - not connected');
     return false;
   }, []);
 

@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Lock, Unlock, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { logger } from '@/lib/logger';
 import { useAuthStore } from '@/stores/authStore';
 import { api } from '@/lib/apiClient';
 import { API_CONFIG } from '@/lib/apiConfig';
@@ -53,7 +54,7 @@ export function PhoenixKey({ onUnlock, onCancel }: PhoenixKeyProps) {
               localStorage.setItem('phoenix_key_expires_at', data.expires_at);
             }
           } catch (e) {
-            console.warn('Failed to store token in localStorage:', e);
+            logger.warn('PhoenixKey', 'Failed to store token in localStorage', { error: e });
           }
           onUnlock(data.token);
         } else {
@@ -99,7 +100,7 @@ export function PhoenixKey({ onUnlock, onCancel }: PhoenixKeyProps) {
                   localStorage.setItem('phoenix_key_expires_at', data.expires_at);
                 }
               } catch (e) {
-                console.warn('Failed to store token:', e);
+                logger.warn('PhoenixKey', 'Failed to store token', { error: e });
               }
               onUnlock(data.token);
             } else {

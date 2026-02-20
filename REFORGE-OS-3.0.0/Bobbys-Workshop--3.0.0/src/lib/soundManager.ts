@@ -6,6 +6,8 @@
  * No fake/mock audio - all effects must be real files
  */
 
+import { logger } from './logger';
+
 type SoundEffect = 
   | 'boom-bap-kick'
   | 'vinyl-scratch'
@@ -68,12 +70,12 @@ class SoundManager {
       audio.currentTime = 0; // Reset to start
       audio.play().catch(err => {
         this.missing.add(effect);
-        console.warn(`Sound effect "${effect}" failed to play:`, err);
+        logger.warn('SoundManager', `Sound effect "${effect}" failed to play`, { error: err });
       });
       return true;
     } catch (error) {
       this.missing.add(effect);
-      console.warn(`Sound effect "${effect}" not available:`, error);
+      logger.warn('SoundManager', `Sound effect "${effect}" not available`, { error });
       return false;
     }
   }
@@ -163,7 +165,7 @@ class SoundManager {
         this.settings = { ...this.settings, ...JSON.parse(stored) };
       }
     } catch (error) {
-      console.warn('Failed to load sound settings:', error);
+      logger.warn('SoundManager', 'Failed to load sound settings', { error });
     }
   }
 
@@ -174,7 +176,7 @@ class SoundManager {
     try {
       localStorage.setItem('workshop-sound-settings', JSON.stringify(this.settings));
     } catch (error) {
-      console.warn('Failed to save sound settings:', error);
+      logger.warn('SoundManager', 'Failed to save sound settings', { error });
     }
   }
 

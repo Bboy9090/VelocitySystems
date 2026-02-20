@@ -1,5 +1,6 @@
 import { useKV } from '@github/spark/hooks';
 import { useState, useCallback, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 import type { 
   AuthorizationHistoryEntry, 
   AuthorizationRetryConfig,
@@ -82,7 +83,7 @@ export function useAuthorizationHistory() {
 
       const currentRetryCount = entry.retryCount || 0;
       if (currentRetryCount >= config.maxRetries) {
-        console.warn('[AuthHistory] Max retries reached for:', entryId);
+        logger.warn('AuthHistory', 'Max retries reached', { entryId });
         updateHistoryEntry(entryId, {
           status: 'failed',
           errorMessage: 'Maximum retry attempts exceeded',

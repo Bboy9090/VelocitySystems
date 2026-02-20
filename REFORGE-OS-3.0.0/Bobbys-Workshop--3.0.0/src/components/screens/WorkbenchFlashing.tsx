@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { logger } from '@/lib/logger';
 import { TerminalCommandPreview } from '../core/TerminalCommandPreview';
 import { TerminalLogStream, LogEntry } from '../core/TerminalLogStream';
 import { ToolboxDangerLever } from '../toolbox/ToolboxDangerLever';
@@ -39,7 +40,7 @@ export function WorkbenchFlashing() {
     if (!selectedDevice) return;
     setIsFlashing(true);
     // TODO: Wire up real flash API
-    console.log('Flash started for:', selectedDevice.serial);
+    logger.debug('WorkbenchFlashing', 'Flash started for', { serial: selectedDevice.serial });
   };
 
   return (

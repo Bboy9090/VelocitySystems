@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
+import { logger } from '@/lib/logger';
 
 export interface FlashProgressMessage {
   type: 'flash_started' | 'flash_progress' | 'flash_completed' | 'flash_failed' | 'flash_paused' | 'flash_resumed' | 'ping' | 'pong';
@@ -213,7 +214,7 @@ export function useFlashProgressWebSocket(config: FlashProgressWebSocketConfig) 
         break;
 
       default:
-        console.warn('Unknown WebSocket message type:', message.type);
+        logger.warn('FlashProgressWS', 'Unknown WebSocket message type', { type: message.type });
     }
   }, [enableNotifications]);
 

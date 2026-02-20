@@ -7,6 +7,7 @@
  */
 
 import { useRef, useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 export type SoundEffect = 
   | 'connect' 
@@ -61,7 +62,7 @@ export function useSoundEffects() {
       const clone = audio.cloneNode() as HTMLAudioElement;
       clone.volume = audio.volume;
       clone.play().catch(err => {
-        console.warn(`[SoundEffects] Failed to play ${effect}:`, err);
+        logger.warn('SoundEffects', `Failed to play ${effect}`, { error: err });
       });
     } catch (error) {
       console.error(`[SoundEffects] Error playing ${effect}:`, error);

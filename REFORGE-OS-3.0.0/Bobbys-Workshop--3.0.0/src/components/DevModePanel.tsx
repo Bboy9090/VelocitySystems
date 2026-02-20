@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { logger } from '@/lib/logger';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -277,7 +278,7 @@ export function DevModePanel() {
 
   const handleExecuteWorkflow = (workflowId: string) => {
     // Feature not yet implemented - workflow execution engine pending
-    console.log(`[NOT IMPLEMENTED] Workflow execution requested: ${workflowId}`);
+    logger.debug('DevModePanel', `Workflow execution requested: ${workflowId}`);
     toast.info('Feature Not Available', {
       description: `Workflow "${workflowId}" execution is not yet implemented. This feature requires integration with the workflow execution engine.`,
       duration: 5000,

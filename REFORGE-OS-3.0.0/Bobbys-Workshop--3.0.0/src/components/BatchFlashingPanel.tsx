@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { logger } from '@/lib/logger';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -371,7 +372,7 @@ export function BatchFlashingPanel() {
     if (criticalItems.length > 0) {
       // Use a proper confirmation dialog instead of window.confirm
       // For now, just log and proceed with warning
-      console.warn(`[BatchFlash] Critical partitions detected: ${criticalItems.map(i => i.partition).join(', ')}`);
+      logger.warn('BatchFlash', 'Critical partitions detected', { partitions: criticalItems.map(i => i.partition) });
       toast.warning('Critical Partitions Detected', {
         description: `This batch includes ${criticalItems.length} critical partitions. Proceeding with caution.`,
         duration: 6000,

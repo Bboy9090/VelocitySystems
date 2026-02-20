@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 export enum USBClass {
   PerInterfaceDefined = 0x00,
   Audio = 0x01,
@@ -412,7 +414,7 @@ export function analyzeUSBDevice(device: any): EnhancedUSBDeviceInfo {
 export async function detectUSBDevicesWithClasses(): Promise<EnhancedUSBDeviceInfo[]> {
   const nav = navigator as any;
   if (!nav.usb) {
-    console.warn('WebUSB API not supported in this browser');
+    logger.warn('USBClassDetection', 'WebUSB API not supported in this browser');
     return [];
   }
 
@@ -433,7 +435,7 @@ export async function detectUSBDevicesWithClasses(): Promise<EnhancedUSBDeviceIn
           await device.close();
         }
       } catch (error) {
-        console.warn(`Failed to analyze device ${device.vendorId}:${device.productId}`, error);
+        logger.warn('USBClassDetection', `Failed to analyze device ${device.vendorId}:${device.productId}`, { error });
         
         const basic: EnhancedUSBDeviceInfo = {
           id: `${device.vendorId}-${device.productId}-${device.serialNumber || 'unknown'}`,

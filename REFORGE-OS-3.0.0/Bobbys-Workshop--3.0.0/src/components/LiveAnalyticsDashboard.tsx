@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { logger } from '@/lib/logger';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -67,7 +68,7 @@ export function LiveAnalyticsDashboard() {
         wsRef.current = ws;
 
         ws.onopen = () => {
-          console.log('[LiveAnalytics] WebSocket connected');
+          logger.info('LiveAnalytics', 'WebSocket connected');
           setIsConnected(true);
         };
 
@@ -86,7 +87,7 @@ export function LiveAnalyticsDashboard() {
         };
 
         ws.onclose = () => {
-          console.log('[LiveAnalytics] WebSocket disconnected');
+          logger.info('LiveAnalytics', 'WebSocket disconnected');
           setIsConnected(false);
           
           // Reconnect after 3 seconds

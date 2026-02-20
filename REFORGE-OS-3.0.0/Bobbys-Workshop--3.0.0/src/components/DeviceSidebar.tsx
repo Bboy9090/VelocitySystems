@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
@@ -54,7 +54,7 @@ function getStatusIcon(status: DeviceStatus) {
     }
 }
 
-export function DeviceSidebar({ collapsed, onToggle }: DeviceSidebarProps) {
+export const DeviceSidebar = React.memo(function DeviceSidebar({ collapsed, onToggle }: DeviceSidebarProps) {
     const { devices } = useAndroidDevices();
 
     return (
@@ -142,4 +142,4 @@ export function DeviceSidebar({ collapsed, onToggle }: DeviceSidebarProps) {
             </div>
         </aside>
     );
-}
+});

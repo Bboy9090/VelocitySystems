@@ -78,11 +78,11 @@ export function preloadComponent(importFn: () => Promise<unknown>): void {
  * Preload critical routes
  */
 export function preloadCriticalRoutes(): void {
-  // Preload secret room components after initial render
   setTimeout(() => {
     preloadComponent(() => import('@/components/sonic/WizardFlow'));
     preloadComponent(() => import('@/components/ghost/GhostDashboard'));
     preloadComponent(() => import('@/components/pandora/ChainBreakerDashboard'));
+    preloadComponent(() => import('@/components/screens/WorkbenchSecretRooms'));
   }, 2000);
 }
 

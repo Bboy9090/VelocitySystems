@@ -9,7 +9,7 @@
  * - Lazy-loaded tab content for faster initial load
  */
 
-import { useState, lazy, Suspense } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DeviceSidebar } from "./DeviceSidebar";
@@ -54,6 +54,8 @@ export function DashboardLayout() {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const { backendAvailable } = useApp();
     const { showGreeting, dismiss } = useBugsGreeting({ enabled: true });
+
+    const handleSidebarToggle = useCallback((newCollapsed: boolean) => setSidebarCollapsed(newCollapsed), []);
 
     const navItems = [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -108,7 +110,7 @@ export function DashboardLayout() {
 
             <div className="flex-1 flex overflow-hidden">
                 {/* Device Sidebar */}
-                <DeviceSidebar collapsed={sidebarCollapsed} onToggle={setSidebarCollapsed} />
+                <DeviceSidebar collapsed={sidebarCollapsed} onToggle={handleSidebarToggle} />
 
                 {/* Main Content */}
                 <main className="flex-1 flex flex-col overflow-hidden min-h-0">
