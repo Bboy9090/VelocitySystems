@@ -1,28 +1,22 @@
 /**
  * WorkbenchDashboard
- * 
  * Apartment workbench overview + quick actions + system status
+ * Truth-first: no placeholder data; quick actions navigate to real tabs
  */
 
 import React from 'react';
-import { logger } from '@/lib/logger';
 import { WorkbenchQuickActions } from '../workbench/WorkbenchQuickActions';
 import { WorkbenchSystemStatus } from '../workbench/WorkbenchSystemStatus';
 import { TerminalLogStream, LogEntry } from '../core/TerminalLogStream';
 import { OrnamentGraffitiTag } from '../ornaments/OrnamentGraffitiTag';
 import { OrnamentStickyNote } from '../ornaments/OrnamentStickyNote';
 
-export function WorkbenchDashboard() {
-  // TODO: Wire up real recent activity from API
-  const recentLogs: LogEntry[] = [
-    {
-      id: '1',
-      timestamp: new Date().toISOString(),
-      level: 'info',
-      message: '[SYSTEM] Workshop initialized',
-      source: 'dashboard',
-    },
-  ];
+interface WorkbenchDashboardProps {
+  onSwitchTab?: (tabId: string) => void;
+}
+
+export function WorkbenchDashboard({ onSwitchTab }: WorkbenchDashboardProps) {
+  const recentLogs: LogEntry[] = [];
 
   return (
     <div className="space-y-6 relative">
@@ -41,9 +35,9 @@ export function WorkbenchDashboard() {
       {/* Quick Actions & System Status Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <WorkbenchQuickActions
-          onScanDevices={() => logger.debug('WorkbenchDashboard', 'Scan devices')}
-          onFlashDevice={() => logger.debug('WorkbenchDashboard', 'Flash device')}
-          onSearchFirmware={() => logger.debug('WorkbenchDashboard', 'Search firmware')}
+          onScanDevices={() => onSwitchTab?.('devices')}
+          onFlashDevice={() => onSwitchTab?.('flashing')}
+          onSearchFirmware={() => onSwitchTab?.('firmware')}
           onRefresh={() => window.location.reload()}
         />
         

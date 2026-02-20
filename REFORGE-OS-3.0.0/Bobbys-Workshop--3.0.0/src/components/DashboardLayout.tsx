@@ -149,7 +149,7 @@ export function DashboardLayout() {
                         <ScrollArea className="flex-1 min-h-0">
                             <div className="p-6 min-h-0">
                                 <TabsContent value="dashboard" className="mt-0">
-                                    <WorkbenchDashboard />
+                                    <WorkbenchDashboard onSwitchTab={setActiveTab} />
                                 </TabsContent>
                                 <TabsContent value="devices" className="mt-0">
                                     <Suspense fallback={<TabFallback />}>

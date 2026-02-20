@@ -19,6 +19,7 @@ import {
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { useApp } from '@/lib/app-context';
+import { getAPIUrl } from '@/lib/apiConfig';
 
 interface CacheCategory {
   id: string;
@@ -38,17 +39,6 @@ export function CleanGarbagePanel() {
   const [totalSize, setTotalSize] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
 
-  const mockCategories: CacheCategory[] = [
-    { id: 'app_cache', name: 'App Cache', description: 'Temporary app data', size: 523000000, selected: true, icon: '📱' },
-    { id: 'browser_cache', name: 'Browser Cache', description: 'Web browser temporary files', size: 342000000, selected: true, icon: '🌐' },
-    { id: 'system_logs', name: 'System Logs', description: 'Diagnostic and crash logs', size: 89000000, selected: true, icon: '📄' },
-    { id: 'temp_files', name: 'Temp Files', description: 'System temporary files', size: 156000000, selected: true, icon: '🗂️' },
-    { id: 'cookies', name: 'Cookies & Data', description: 'Web cookies and site data', size: 23000000, selected: false, icon: '🍪' },
-    { id: 'downloads', name: 'Download Cache', description: 'Temporary download files', size: 234000000, selected: true, icon: '⬇️' },
-    { id: 'thumbnails', name: 'Image Thumbnails', description: 'Generated preview images', size: 445000000, selected: true, icon: '🖼️' },
-    { id: 'offline_data', name: 'Offline Data', description: 'App offline storage', size: 187000000, selected: false, icon: '💾' },
-  ];
-
   useEffect(() => {
     const total = categories.reduce((sum, cat) => sum + cat.size, 0);
     const selected = categories.filter(c => c.selected).reduce((sum, cat) => sum + cat.size, 0);
@@ -58,23 +48,24 @@ export function CleanGarbagePanel() {
 
   const handleScan = async () => {
     setScanning(true);
-    
+    setCategories([]);
+
     if (!backendAvailable) {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setCategories(mockCategories);
       setScanning(false);
-      toast.success('Scan complete (demo data)');
+      toast.error('Connect backend to scan cache');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/device/cache/scan');
+      const response = await fetch(getAPIUrl('/api/v1/settings/cache/scan'));
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      setCategories(data.categories || mockCategories);
-      toast.success(`Found ${formatBytes(data.totalSize || totalSize)} of cache data`);
+      const items = data.categories || [];
+      setCategories(items);
+      toast.success(items.length > 0 ? `Found ${formatBytes(data.totalSize || 0)} of cache data` : 'No cache data found');
     } catch (error) {
-      setCategories(mockCategories);
-      toast.error('Scan failed - showing demo data');
+      setCategories([]);
+      toast.error('Scan failed - check backend is running');
     } finally {
       setScanning(false);
     }

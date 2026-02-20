@@ -17,6 +17,7 @@ import {
   FunnelSimple,
 } from '@phosphor-icons/react';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
 import { useAuthorizationHistory } from '@/hooks/use-authorization-history';
 import type { AuthorizationHistoryEntry } from '@/types/authorization-history';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -241,7 +242,22 @@ function TimelineEntry({
   getCategoryColor,
 }: TimelineEntryProps) {
   const handleRetry = async () => {
-    logger.debug('AuthHistoryTimeline', 'Retry not implemented', { entryId: entry.id });
+    if (!entry.deviceId) {
+      toast.error('Cannot retry: no device ID in history entry');
+      return;
+    }
+    const platform = (entry.metadata?.platform as string) || (entry.deviceId?.match(/^[0-9a-f-]{36}$/i) ? 'ios' : 'android');
+    const executeFn = async () => {
+      const { apiRequest } = await import('@/lib/api-client');
+      const res = await apiRequest('/api/v1/authorization/trigger-all', {
+        method: 'POST',
+        body: { deviceId: entry.deviceId, platform },
+      });
+      const ok = res?.success ?? (res as any)?.ok;
+      if (!ok) throw new Error((res as any)?.error?.message ?? res?.error ?? 'Trigger failed');
+      return res;
+    };
+    await onRetry?.(entry.id, executeFn);
   };
 
   return (
